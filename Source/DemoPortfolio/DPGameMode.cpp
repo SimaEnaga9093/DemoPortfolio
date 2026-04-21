@@ -3,7 +3,7 @@
 #include "DPGameMode.h"
 
 #include "DPPlayerController.h"
-#include "DemoPortfolioCharacter.h"
+#include "DPPlayerCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ADPGameMode::ADPGameMode()
@@ -19,7 +19,7 @@ ADPGameMode::ADPGameMode()
 	}
 
 	// set default controller to our Blueprinted controller
-	static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerBPClass(TEXT("/Game/TopDown/Blueprints/BP_TopDownPlayerController"));
+	static ConstructorHelpers::FClassFinder<ADPPlayerController> PlayerControllerBPClass(TEXT("/Game/TopDown/Blueprints/BP_TopDownPlayerController"));
 	if(PlayerControllerBPClass.Class != NULL)
 	{
 		PlayerControllerClass = PlayerControllerBPClass.Class;

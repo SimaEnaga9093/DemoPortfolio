@@ -11,6 +11,7 @@
 #include "InputActionValue.h"
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
+#include "AbilitySystemInterface.h"
 
 ADPPlayerController::ADPPlayerController()
 {
@@ -46,11 +47,7 @@ void ADPPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Completed, this, &ADPPlayerController::OnSetDestinationReleased);
 		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Canceled, this, &ADPPlayerController::OnSetDestinationReleased);
 
-		// Setup touch input events
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Started, this, &ADPPlayerController::OnInputStarted);
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Triggered, this, &ADPPlayerController::OnTouchTriggered);
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Completed, this, &ADPPlayerController::OnTouchReleased);
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Canceled, this, &ADPPlayerController::OnTouchReleased);
+		EnhancedInputComponent->BindAction(AttackClickAction, ETriggerEvent::Started, this, &ADPPlayerController::OnAttackStarted);
 	}
 }
 
@@ -67,15 +64,7 @@ void ADPPlayerController::OnSetDestinationTriggered()
 	
 	// We look for the location in the world where the player has pressed the input
 	FHitResult Hit;
-	bool bHitSuccessful = false;
-	if (bIsTouch)
-	{
-		bHitSuccessful = GetHitResultUnderFinger(ETouchIndex::Touch1, ECollisionChannel::ECC_Visibility, true, Hit);
-	}
-	else
-	{
-		bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
-	}
+	bool bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
 
 	// If we hit a surface, cache the location
 	if (bHitSuccessful)
@@ -105,15 +94,13 @@ void ADPPlayerController::OnSetDestinationReleased()
 	FollowTime = 0.f;
 }
 
-// Triggered every frame when the input is held down
-void ADPPlayerController::OnTouchTriggered()
+void ADPPlayerController::OnAttackStarted()
 {
-	bIsTouch = true;
-	OnSetDestinationTriggered();
-}
-
-void ADPPlayerController::OnTouchReleased()
-{
-	bIsTouch = false;
-	OnSetDestinationReleased();
+	if (GetPawn())
+	{
+		if (IAbilitySystemInterface* ASCInterface = Cast<IAbilitySystemInterface>(GetPawn()))
+		{
+			UE_LOG(LogTemp, Log, TEXT("Attack triggered"));
+		}
+	}
 }
