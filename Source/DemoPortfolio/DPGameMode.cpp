@@ -1,14 +1,15 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "DemoPortfolioGameMode.h"
-#include "DemoPortfolioPlayerController.h"
+#include "DPGameMode.h"
+
+#include "DPPlayerController.h"
 #include "DemoPortfolioCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
-ADemoPortfolioGameMode::ADemoPortfolioGameMode()
+ADPGameMode::ADPGameMode()
 {
 	// use our custom PlayerController class
-	PlayerControllerClass = ADemoPortfolioPlayerController::StaticClass();
+	PlayerControllerClass = ADPPlayerController::StaticClass();
 
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/TopDown/Blueprints/BP_TopDownCharacter"));

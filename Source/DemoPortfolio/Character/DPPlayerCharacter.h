@@ -1,21 +1,27 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "DemoPortfolioCharacter.generated.h"
+#include "DPCharacterBase.h"
+#include "DPPlayerCharacter.generated.h"
 
-UCLASS(Blueprintable)
-class ADemoPortfolioCharacter : public ACharacter
+/**
+ * 
+ */
+UCLASS()
+class DEMOPORTFOLIO_API ADPPlayerCharacter : public ADPCharacterBase
 {
 	GENERATED_BODY()
 
 public:
-	ADemoPortfolioCharacter();
+	ADPPlayerCharacter();
 
 	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	/** Returns TopDownCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
@@ -31,4 +37,3 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 };
-

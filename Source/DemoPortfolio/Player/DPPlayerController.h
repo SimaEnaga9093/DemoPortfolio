@@ -5,22 +5,20 @@
 #include "CoreMinimal.h"
 #include "Templates/SubclassOf.h"
 #include "GameFramework/PlayerController.h"
-#include "DemoPortfolioPlayerController.generated.h"
+#include "DPPlayerController.generated.h"
 
 /** Forward declaration to improve compiling times */
 class UNiagaraSystem;
 class UInputMappingContext;
 class UInputAction;
 
-DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
-
 UCLASS()
-class ADemoPortfolioPlayerController : public APlayerController
+class ADPPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
 public:
-	ADemoPortfolioPlayerController();
+	ADPPlayerController();
 
 	/** Time Threshold to know if it was a short press */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)

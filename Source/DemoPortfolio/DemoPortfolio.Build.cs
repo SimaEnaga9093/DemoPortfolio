@@ -8,6 +8,24 @@ public class DemoPortfolio : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "NavigationSystem", "AIModule", "Niagara", "EnhancedInput" });
-    }
+    PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "NavigationSystem", "AIModule", "Niagara", "EnhancedInput",
+      "GameplayAbilities",
+      "GameplayTags",
+      "GameplayTasks",
+    });
+
+    PublicIncludePaths.AddRange(new string[] {
+      "DemoPortfolio/AbilitySystem",
+      "DemoPortfolio/AbilitySystem/Abilities",
+      "DemoPortfolio/Player",
+      "DemoPortfolio/Character",
+    });
+
+    PrivateIncludePaths.AddRange(new string[] {
+      "DemoPortfolio/AbilitySystem",
+      "DemoPortfolio/AbilitySystem/Abilities",
+      "DemoPortfolio/Character",
+      "DemoPortfolio/Player",
+    });
+  }
 }
