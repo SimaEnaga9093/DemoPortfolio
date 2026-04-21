@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayAbilitySet.h"
+#include "AttributeSet.h"
 #include "DPAttributeSet.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class DEMOPORTFOLIO_API UDPAttributeSet : public UGameplayAbilitySet
+class DEMOPORTFOLIO_API UDPAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 	

@@ -5,10 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
-#include "DPAbilitySystemComponent.h"
-#include "DPAttributeSet.h"
 
 #include "DPCharacterBase.generated.h"
+
+class UDPAbilitySystemComponent;
+class UDPAttributeSet;
+class UDPGameplayAbility;
 
 UCLASS()
 class DEMOPORTFOLIO_API ADPCharacterBase : public ACharacter, public IAbilitySystemInterface
@@ -27,11 +29,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent.Get(); }
+
+	void GrantAbility(TSubclassOf<UDPGameplayAbility> AbilityClass);
 
 private:
 	UPROPERTY()
-	TObjectPtr<UDPAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()
 	TObjectPtr<UDPAttributeSet> AttributeSet;

@@ -6,6 +6,8 @@
 #include "DPCharacterBase.h"
 #include "DPPlayerCharacter.generated.h"
 
+class UDPGA_NormalAttack;
+
 /**
  * 
  */
@@ -16,6 +18,8 @@ class DEMOPORTFOLIO_API ADPPlayerCharacter : public ADPCharacterBase
 
 public:
 	ADPPlayerCharacter();
+
+	virtual void BeginPlay() override;
 
 	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;

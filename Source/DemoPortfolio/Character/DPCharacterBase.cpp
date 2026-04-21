@@ -5,6 +5,9 @@
 
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "DPAbilitySystemComponent.h"
+#include "DPAttributeSet.h"
+#include "DPGameplayAbility.h"
 
 // Sets default values
 ADPCharacterBase::ADPCharacterBase()
@@ -38,4 +41,12 @@ void ADPCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ADPCharacterBase::GrantAbility(TSubclassOf<UDPGameplayAbility> AbilityClass)
+{
+	if (AbilitySystemComponent && AbilityClass)
+	{
+		AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(AbilityClass));
+	}
 }

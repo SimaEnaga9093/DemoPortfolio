@@ -2,21 +2,25 @@
 
 #include "DPPlayerController.h"
 
-#include "GameFramework/Pawn.h"
+#include "AbilitySystemInterface.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
-#include "NiagaraSystem.h"
-#include "NiagaraFunctionLibrary.h"
+#include "Engine/LocalPlayer.h"
 #include "Engine/World.h"
 #include "EnhancedInputComponent.h"
-#include "InputActionValue.h"
 #include "EnhancedInputSubsystems.h"
-#include "Engine/LocalPlayer.h"
-#include "AbilitySystemInterface.h"
+#include "GameFramework/Pawn.h"
+#include "InputActionValue.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraSystem.h"
+
+#include "DPAbilitySystemComponent.h"
+#include "DPGA_NormalAttack.h"
 
 ADPPlayerController::ADPPlayerController()
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
+
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.f;
 }
@@ -101,6 +105,7 @@ void ADPPlayerController::OnAttackStarted()
 		if (IAbilitySystemInterface* ASCInterface = Cast<IAbilitySystemInterface>(GetPawn()))
 		{
 			UE_LOG(LogTemp, Log, TEXT("Attack triggered"));
+			ASCInterface->GetAbilitySystemComponent()->TryActivateAbilityByClass(UDPGA_NormalAttack::StaticClass());
 		}
 	}
 }

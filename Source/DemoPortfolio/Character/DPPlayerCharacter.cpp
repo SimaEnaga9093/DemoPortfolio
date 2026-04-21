@@ -5,6 +5,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "DPGA_NormalAttack.h"
 
 ADPPlayerCharacter::ADPPlayerCharacter()
 {
@@ -29,6 +30,13 @@ ADPPlayerCharacter::ADPPlayerCharacter()
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+}
+
+void ADPPlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GrantAbility(UDPGA_NormalAttack::StaticClass());
 }
 
 void ADPPlayerCharacter::Tick(float DeltaSeconds)
