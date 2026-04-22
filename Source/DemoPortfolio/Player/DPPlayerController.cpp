@@ -15,6 +15,7 @@
 
 #include "DPAbilitySystemComponent.h"
 #include "DPGA_NormalAttack.h"
+#include "DPCharacterBase.h"
 
 ADPPlayerController::ADPPlayerController()
 {
@@ -105,7 +106,10 @@ void ADPPlayerController::OnAttackStarted()
 		if (IAbilitySystemInterface* ASCInterface = Cast<IAbilitySystemInterface>(GetPawn()))
 		{
 			UE_LOG(LogTemp, Log, TEXT("Attack triggered"));
-			ASCInterface->GetAbilitySystemComponent()->TryActivateAbilityByClass(UDPGA_NormalAttack::StaticClass());
+			FGameplayAbilitySpecHandle spec = Cast<ADPCharacterBase>(GetPawn())->GetAbilitySpecHandle(FString("NormalAttack"));
+
+			if (spec.IsValid())
+				ASCInterface->GetAbilitySystemComponent()->TryActivateAbility(spec);
 		}
 	}
 }

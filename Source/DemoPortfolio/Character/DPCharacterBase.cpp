@@ -5,6 +5,7 @@
 
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+
 #include "DPAbilitySystemComponent.h"
 #include "DPAttributeSet.h"
 #include "DPGameplayAbility.h"
@@ -34,6 +35,7 @@ void ADPCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	InitAbilites();
 }
 
 // Called every frame
@@ -43,10 +45,10 @@ void ADPCharacterBase::Tick(float DeltaTime)
 
 }
 
-void ADPCharacterBase::GrantAbility(TSubclassOf<UDPGameplayAbility> AbilityClass)
+void ADPCharacterBase::InitAbilites()
 {
-	if (AbilitySystemComponent && AbilityClass)
+	for (TTuple<FString, TSubclassOf<UDPGameplayAbility>> Ability : Abilities)
 	{
-		AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(AbilityClass));
+		AbilitySpecHandles.Add(Ability.Key, AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(Ability.Value)));
 	}
 }

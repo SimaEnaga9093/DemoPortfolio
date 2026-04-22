@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
+#include "GameFramework/Character.h"
+#include "GameplayAbilitySpecHandle.h"
 
 #include "DPCharacterBase.generated.h"
 
@@ -31,12 +32,20 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent.Get(); }
 
-	void GrantAbility(TSubclassOf<UDPGameplayAbility> AbilityClass);
+	FGameplayAbilitySpecHandle GetAbilitySpecHandle(FString Key) { return *AbilitySpecHandles.Find(Key); }
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "DemoPortfolio", meta = (AllowPrivateAccess = "true"))
+	TMap<FString, TSubclassOf<UDPGameplayAbility>> Abilities;
 
 private:
+	void InitAbilites();
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()
 	TObjectPtr<UDPAttributeSet> AttributeSet;
+
+	UPROPERTY()
+	TMap<FString, FGameplayAbilitySpecHandle> AbilitySpecHandles;
 };

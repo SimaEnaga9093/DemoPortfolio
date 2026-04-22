@@ -2,7 +2,9 @@
 
 
 #include "DPGA_NormalAttack.h"
+
 #include "GameFramework/Character.h"
+#include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
 
 UDPGA_NormalAttack::UDPGA_NormalAttack()
 {
@@ -38,6 +40,16 @@ void UDPGA_NormalAttack::ActivateAbility(const FGameplayAbilitySpecHandle Handle
         }
     }
 
+    UAbilityTask_PlayMontageAndWait* Task =
+        UAbilityTask_PlayMontageAndWait::CreatePlayMontageAndWaitProxy(this, NAME_None, Montages[0].Get());
+
+    Task->OnCompleted.AddDynamic(this, &UDPGA_NormalAttack::OnMontageCompleted);
+    Task->OnBlendOut.AddDynamic(this, &UDPGA_NormalAttack::OnMontageCompleted);
+    Task->OnInterrupted.AddDynamic(this, &UDPGA_NormalAttack::OnMontageInterrupted);
+    Task->OnCancelled.AddDynamic(this, &UDPGA_NormalAttack::OnMontageInterrupted);
+
+    Task->ReadyForActivation();
+
     FVector Start = Character->GetActorLocation();
     FVector End = Start + Character->GetActorForwardVector() * AttackRange;
 
@@ -52,5 +64,14 @@ void UDPGA_NormalAttack::ActivateAbility(const FGameplayAbilitySpecHandle Handle
         }
     }
 
-    EndAbility(Handle, ActorInfo, ActivationInfo, true, false);
+}
+
+void UDPGA_NormalAttack::OnMontageCompleted()
+{
+    EndAbilityOnMontage(false);
+}
+
+void UDPGA_NormalAttack::OnMontageInterrupted()
+{
+    EndAbilityOnMontage(true);
 }

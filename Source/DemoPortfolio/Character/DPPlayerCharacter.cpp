@@ -35,8 +35,6 @@ ADPPlayerCharacter::ADPPlayerCharacter()
 void ADPPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	GrantAbility(UDPGA_NormalAttack::StaticClass());
 }
 
 void ADPPlayerCharacter::Tick(float DeltaSeconds)
@@ -48,5 +46,4 @@ void ADPPlayerCharacter::Tick(float DeltaSeconds)
 void ADPPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
