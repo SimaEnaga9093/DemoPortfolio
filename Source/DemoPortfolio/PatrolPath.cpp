@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "PatrolPath.h"
 
@@ -8,69 +8,69 @@
 
 APatrolPath::APatrolPath()
 {
-	PrimaryActorTick.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = false;
 
-	USceneComponent* root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	SetRootComponent(root);
+    USceneComponent* root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+    SetRootComponent(root);
 }
 
 TArray<FVector> APatrolPath::GetPathLocations() const
 {
-	TArray<FVector> locations;
-	locations.Reserve(Points.Num());
+    TArray<FVector> locations;
+    locations.Reserve(Points.Num());
 
-	// ¸ðµç Æ÷ÀÎÆ®µé ¼ø¼­¸¦ ¸ÂÃç ±â·Ï ÈÄ ¹ÝÈ¯
-	for (const APatrolPoint* point : Points)
-	{
-		if (IsValid(point))
-		{
-			locations.Add(point->GetActorLocation());
-		}
-	}
+    // ëª¨ë“  í¬ì¸íŠ¸ë“¤ ìˆœì„œë¥¼ ë§žì¶° ê¸°ë¡ í›„ ë°˜í™˜
+    for (const APatrolPoint* point : Points)
+    {
+        if (IsValid(point))
+        {
+            locations.Add(point->GetActorLocation());
+        }
+    }
 
-	return locations;
+    return locations;
 }
 
 #if WITH_EDITOR
 void APatrolPath::AddPoint()
 {
-	UWorld* world = GetWorld();
-	if (!world || world->IsGameWorld())
-		return;
+    UWorld* world = GetWorld();
+    if (!world || world->IsGameWorld())
+        return;
 
-	// ½ºÆù ÆÄ¶ó¹ÌÅÍ
-	FActorSpawnParameters spawnParams;
-	spawnParams.Owner = this;
-	spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+    // ìŠ¤í° íŒŒë¼ë¯¸í„°
+    FActorSpawnParameters spawnParams;
+    spawnParams.Owner = this;
+    spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	// ¾×ÅÍ ¼ÒÈ¯
-	APatrolPoint* newPoint = world->SpawnActor<APatrolPoint>(
-		GetActorLocation(),
-		FRotator::ZeroRotator,
-		spawnParams);
+    // ì•¡í„° ì†Œí™˜
+    APatrolPoint* newPoint = world->SpawnActor<APatrolPoint>(
+        GetActorLocation(),
+        FRotator::ZeroRotator,
+        spawnParams);
 
-	if (!newPoint)
-		return;
+    if (!newPoint)
+        return;
 
-	// ÀÎµ¦½º º¸ÀÌµµ·Ï ¾×ÅÍ¸íµµ ¼öÁ¤
-	newPoint->SetActorLabel(FString::Printf(TEXT("PatrolPoint_%d"), Points.Num()));
-	newPoint->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
-	newPoint->SetOwningPath(this);
-	Points.Add(newPoint);
+    // ì¸ë±ìŠ¤ ë³´ì´ë„ë¡ ì•¡í„°ëª…ë„ ìˆ˜ì •
+    newPoint->SetActorLabel(FString::Printf(TEXT("PatrolPoint_%d"), Points.Num()));
+    newPoint->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
+    newPoint->SetOwningPath(this);
+    Points.Add(newPoint);
 
-	UpdateEditorVisuals();
+    UpdateEditorVisuals();
 }
 
 void APatrolPath::UpdateEditorVisuals()
 {
-	// ¼Ò½ÇµÈ Æ÷ÀÎÆ® Á¤¸®
-	Points.RemoveAll([](const APatrolPoint* p) {
-		return !IsValid(p);
-	});
+    // ì†Œì‹¤ëœ í¬ì¸íŠ¸ ì •ë¦¬
+    Points.RemoveAll([](const APatrolPoint* p) {
+        return !IsValid(p);
+    });
 
-	for (APatrolPoint* point : Points)
-	{
-		point->UpdateEditorVisuals();
-	}
+    for (APatrolPoint* point : Points)
+    {
+        point->UpdateEditorVisuals();
+    }
 }
 #endif

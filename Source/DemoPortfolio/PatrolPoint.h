@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+Ôªø// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -12,38 +12,38 @@ class UArrowComponent;
 class UTextRenderComponent;
 
 /**
- * ¡§¬˚ ∞Ê∑Œ¿« ∆˜¿Œ∆Æ.
+ * Ï†ïÏ∞∞ Í≤ΩÎ°úÏùò Ìè¨Ïù∏Ìä∏.
  */
 UCLASS()
 class DEMOPORTFOLIO_API APatrolPoint : public AActor
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	APatrolPoint();
+    APatrolPoint();
 
-	void SetOwningPath(APatrolPath* InPath);
+    void SetOwningPath(APatrolPath* InPath);
 
 #if WITH_EDITOR
-	virtual void PostEditMove(bool bFinished) override;
+    virtual void PostEditMove(bool bFinished) override;
 
-	// ø°µ≈Õ ∫Ò¡÷æÛ ∞ªΩ≈
-	void UpdateEditorVisuals();
+    // ÏóêÎîîÌÑ∞ ÎπÑÏ£ºÏñº Í∞±Ïã†
+    void UpdateEditorVisuals();
 #endif
 
 private:
-	// º“º” ¡§¬˚ ∞Ê∑Œ ∆˜¿Œ∆Æ
-	UPROPERTY()
-	TWeakObjectPtr<APatrolPath> OwningPath;
+    // ÏÜåÏÜç Ï†ïÏ∞∞ Í≤ΩÎ°ú Ìè¨Ïù∏Ìä∏
+    UPROPERTY()
+    TWeakObjectPtr<APatrolPath> OwningPath;
 
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UBillboardComponent> EditorBillboard;
+    UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+    TObjectPtr<UBillboardComponent> EditorBillboard;
 
-	UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UArrowComponent> EditorArrow;
+    UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+    TObjectPtr<UArrowComponent> EditorArrow;
 
-	UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UTextRenderComponent> EditorIndexText;
+    UPROPERTY(VisibleAnywhere, meta = (AllowPrivateAccess = "true"))
+    TObjectPtr<UTextRenderComponent> EditorIndexText;
 #endif
 };

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+Ôªø// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "PatrolPoint.h"
@@ -13,81 +13,81 @@
 
 APatrolPoint::APatrolPoint()
 {
-	PrimaryActorTick.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = false;
 
-	USceneComponent* root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	SetRootComponent(root);
+    USceneComponent* root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+    SetRootComponent(root);
 
 #if WITH_EDITORONLY_DATA
-	// ƒƒ∆˜≥Õ∆Æ ºº∆√
-	EditorBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>(TEXT("EditorBillboard"));
-	if (EditorBillboard)
-	{
-		EditorBillboard->SetupAttachment(root);
-		EditorBillboard->bIsEditorOnly = true;
-	}
+    // Ïª¥Ìè¨ÎÑåÌä∏ ÏÑ∏ÌåÖ
+    EditorBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>(TEXT("EditorBillboard"));
+    if (EditorBillboard)
+    {
+        EditorBillboard->SetupAttachment(root);
+        EditorBillboard->bIsEditorOnly = true;
+    }
 
-	EditorArrow = CreateEditorOnlyDefaultSubobject<UArrowComponent>(TEXT("EditorArrow"));
-	if (EditorArrow)
-	{
-		EditorArrow->SetupAttachment(root);
-		EditorArrow->ArrowColor = FColor::Green;
-		EditorArrow->bIsEditorOnly = true;
-	}
+    EditorArrow = CreateEditorOnlyDefaultSubobject<UArrowComponent>(TEXT("EditorArrow"));
+    if (EditorArrow)
+    {
+        EditorArrow->SetupAttachment(root);
+        EditorArrow->ArrowColor = FColor::Green;
+        EditorArrow->bIsEditorOnly = true;
+    }
 
-	EditorIndexText = CreateEditorOnlyDefaultSubobject<UTextRenderComponent>(TEXT("EditorIndexText"));
-	if (EditorIndexText)
-	{
-		EditorIndexText->SetupAttachment(root);
-		EditorIndexText->SetRelativeLocation(FVector(0.f, 0.f, 100.f));
-		EditorIndexText->SetWorldRotation(FRotator(90.f, 0.f, 90.f));
-		EditorIndexText->SetWorldSize(50.f);
-		EditorIndexText->SetTextRenderColor(FColor::Green);
-		EditorIndexText->SetHiddenInGame(true);
-		EditorIndexText->bIsEditorOnly = true;
-	}
+    EditorIndexText = CreateEditorOnlyDefaultSubobject<UTextRenderComponent>(TEXT("EditorIndexText"));
+    if (EditorIndexText)
+    {
+        EditorIndexText->SetupAttachment(root);
+        EditorIndexText->SetRelativeLocation(FVector(0.f, 0.f, 100.f));
+        EditorIndexText->SetWorldRotation(FRotator(90.f, 0.f, 90.f));
+        EditorIndexText->SetWorldSize(50.f);
+        EditorIndexText->SetTextRenderColor(FColor::Green);
+        EditorIndexText->SetHiddenInGame(true);
+        EditorIndexText->bIsEditorOnly = true;
+    }
 #endif
 }
 
 void APatrolPoint::SetOwningPath(APatrolPath* InPath)
 {
-	OwningPath = InPath;
+    OwningPath = InPath;
 }
 
 #if WITH_EDITOR
 void APatrolPoint::PostEditMove(bool bFinished)
 {
-	Super::PostEditMove(bFinished);
+    Super::PostEditMove(bFinished);
 
-	// ∆Ì¡˝ø° π›¿¿«ÿº≠ ∞ªΩ≈
-	if (OwningPath.IsValid())
-	{
-		OwningPath->UpdateEditorVisuals();
-	}
+    // Ìé∏ÏßëÏóê Î∞òÏùëÌï¥ÏÑú Í∞±Ïã†
+    if (OwningPath.IsValid())
+    {
+        OwningPath->UpdateEditorVisuals();
+    }
 }
 
 void APatrolPoint::UpdateEditorVisuals()
 {
-	if (!OwningPath.IsValid())
-		return;
+    if (!OwningPath.IsValid())
+        return;
 
-	const TArray<TObjectPtr<APatrolPoint>>& points = OwningPath->GetPoints();
-	const int32 curIndex = points.IndexOfByKey(this);
-	if (curIndex == INDEX_NONE)
-		return;
+    const TArray<TObjectPtr<APatrolPoint>>& points = OwningPath->GetPoints();
+    const int32 curIndex = points.IndexOfByKey(this);
+    if (curIndex == INDEX_NONE)
+        return;
 
-	if (EditorIndexText)
-	{
-		EditorIndexText->SetText(FText::AsNumber(curIndex));
-	}
+    if (EditorIndexText)
+    {
+        EditorIndexText->SetText(FText::AsNumber(curIndex));
+    }
 
-	if (EditorArrow)
-	{
-		const int32 nextIndex = (curIndex + 1) % points.Num();
-		const FVector toNextVec = points[nextIndex]->GetActorLocation() - GetActorLocation();
-		EditorArrow->SetVisibility(points.Num() > 1);
-		EditorArrow->SetWorldRotation(toNextVec.Rotation());
-		EditorArrow->SetArrowLength(GetDistanceTo(points[nextIndex]));
-	}
+    if (EditorArrow)
+    {
+        const int32 nextIndex = (curIndex + 1) % points.Num();
+        const FVector toNextVec = points[nextIndex]->GetActorLocation() - GetActorLocation();
+        EditorArrow->SetVisibility(points.Num() > 1);
+        EditorArrow->SetWorldRotation(toNextVec.Rotation());
+        EditorArrow->SetArrowLength(GetDistanceTo(points[nextIndex]));
+    }
 }
 #endif
